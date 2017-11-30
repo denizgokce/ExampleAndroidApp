@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.example.deniz.exampleandroidapp.dependencyInjection.ApplicationComponent;
 import com.example.deniz.exampleandroidapp.dependencyInjection.ApplicationModule;
+import com.example.deniz.exampleandroidapp.dependencyInjection.ServiceModule;
 
 /**
  * Created by Deniz on 30.11.2017.
@@ -19,9 +20,8 @@ public class ExampleAndroidApp extends Application {
         applicationComponent = DaggerApplicationComponent
                 .builder()
                 .applicationModule(new ApplicationModule(this))
-                //.roomModule(new RoomModule(this))
+                .ServiceModule(new ServiceModule(this))
                 .build();
-
     }
 
     public ApplicationComponent getApplicationComponent() {
