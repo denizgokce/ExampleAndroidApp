@@ -5,6 +5,11 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven {
+            url "https://maven.google.com"
+        }
+        //VPI
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -24,4 +29,16 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    //android
+    picassoVersion = '2.5.2'
+    circleImageViewVersion = '2.1.0'
+    supportLibraryVersion = '25.3.1'
+    constraintLayoutVersion = '1.0.2'
+    archLifecycleVersion = '1.0.0-alpha5'
+    roomLifecycleVersion = '1.0.0-alpha5'
+    viewPagerIndicatorVersion = '2.4.1'
+    daggerVersion = '2.11'
 }
