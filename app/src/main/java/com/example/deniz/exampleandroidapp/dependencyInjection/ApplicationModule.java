@@ -1,6 +1,9 @@
 package com.example.deniz.exampleandroidapp.dependencyInjection;
 
 import com.example.deniz.exampleandroidapp.ExampleAndroidApp;
+import android.app.Application;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,12 +21,14 @@ public class ApplicationModule {
     }
 
     @Provides
+    @Singleton
     ExampleAndroidApp provideExampleAndroidAppApplication() {
         return application;
     }
 
     @Provides
-    ExampleAndroidApp provideApplication() {
+    @Singleton
+    Application provideApplication() {
         return application;
     }
 }

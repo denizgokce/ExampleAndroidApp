@@ -1,7 +1,6 @@
 package com.example.deniz.exampleandroidapp.view.list;
 
 
-
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.arch.lifecycle.LifecycleFragment;
@@ -36,10 +35,10 @@ import com.example.deniz.exampleandroidapp.viewmodel.ListViewModel;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 
 public class ListFragment extends LifecycleFragment {
-    // TODO: Rename parameter arguments, choose names that match
     private static final String EXTRA_ITEM_ID = "EXTRA_ITEM_ID";
 
     private List<Person> listOfPeople;
@@ -49,8 +48,8 @@ public class ListFragment extends LifecycleFragment {
     private CustomAdapter adapter;
     private Toolbar toolbar;
 
-    @Inject
-    ViewModelProvider.Factory viewModelFactory;
+    /*@Inject
+    ViewModelProvider.Factory viewModelFactory;*/
 
     ListViewModel listViewModel;
 
@@ -75,8 +74,8 @@ public class ListFragment extends LifecycleFragment {
         super.onActivityCreated(savedInstanceState);
 
         //Set up and subscribe (observe) to the ViewModel
-        listViewModel = ViewModelProviders.of(this, viewModelFactory)
-                .get(ListViewModel.class);
+       /*listViewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(ListViewModel.class);*/
 
         listViewModel.getListItems().observe(this, new Observer<List<Person>>() {
             @Override

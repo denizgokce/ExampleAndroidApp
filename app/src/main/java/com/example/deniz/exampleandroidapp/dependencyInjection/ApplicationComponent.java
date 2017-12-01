@@ -2,12 +2,11 @@ package com.example.deniz.exampleandroidapp.dependencyInjection;
 
 import android.app.Application;
 
-import com.example.deniz.exampleandroidapp.view.list.ListFragment;
-
 import javax.inject.Singleton;
-
 import dagger.Component;
-import dagger.Provides;
+
+
+import com.example.deniz.exampleandroidapp.view.list.ListFragment;
 
 /**
  * Created by Deniz on 30.11.2017.
