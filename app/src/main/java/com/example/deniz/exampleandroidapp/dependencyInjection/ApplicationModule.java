@@ -18,7 +18,7 @@ public class ApplicationModule {
     }
 
     @Provides
-    ExampleAndroidApp provideRoomDemoApplication() {
+    ExampleAndroidApp provideExampleAndroidAppApplication() {
         return application;
     }
 

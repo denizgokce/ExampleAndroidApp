@@ -9,6 +9,8 @@ import com.example.deniz.exampleandroidapp.model.Person;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by deniz.gokce on 30.11.2017.
  */
@@ -16,7 +18,7 @@ import java.util.List;
 public class ListViewModel extends ViewModel {
 
     private PeopleRepository repository;
-
+    @Inject
     ListViewModel(PeopleRepository repository) {
         this.repository = repository;
     }

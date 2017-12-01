@@ -29,7 +29,7 @@ public class ServiceModule {
 
     @Provides
     @Singleton
-    PeopleService providePeopleService(PeopleService service) {
+    PeopleRepository providePeopleService(PeopleService service) {
         return new PeopleRepository(service);
     }
 

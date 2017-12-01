@@ -7,6 +7,7 @@ import com.example.deniz.exampleandroidapp.view.list.ListFragment;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import dagger.Provides;
 
 /**
  * Created by Deniz on 30.11.2017.
