@@ -21,13 +21,11 @@ public class ApplicationModule {
     }
 
     @Provides
-    @Singleton
     ExampleAndroidApp provideExampleAndroidAppApplication() {
         return application;
     }
 
     @Provides
-    @Singleton
     Application provideApplication() {
         return application;
     }

@@ -1,10 +1,12 @@
 package com.example.deniz.exampleandroidapp.view.list;
 
+
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 
 import com.example.deniz.exampleandroidapp.R;
 import com.example.deniz.exampleandroidapp.util.BaseActivity;
+
 
 public class ListActivity extends BaseActivity {
 

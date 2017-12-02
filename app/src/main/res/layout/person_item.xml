@@ -21,20 +21,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/blue_drawable" />
 
-    <ImageView
-        android:id="@+id/imv_date_and_time"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginLeft="80dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="44dp"
-        android:alpha=".86"
-        android:src="@drawable/ic_event_white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
     <TextView
         android:id="@+id/lbl_firstname"
         style="@style/Text.Primary"

@@ -1,16 +1,13 @@
 package com.example.deniz.exampleandroidapp.view.list;
 
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -18,9 +15,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.transition.Fade;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +29,6 @@ import com.example.deniz.exampleandroidapp.viewmodel.ListViewModel;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 
 public class ListFragment extends LifecycleFragment {
@@ -48,14 +41,15 @@ public class ListFragment extends LifecycleFragment {
     private CustomAdapter adapter;
     private Toolbar toolbar;
 
-    /*@Inject
-    ViewModelProvider.Factory viewModelFactory;*/
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     ListViewModel listViewModel;
 
     public ListFragment() {
     }
 
+    @NonNull
     public static ListFragment newInstance() {
         return new ListFragment();
     }
@@ -74,8 +68,8 @@ public class ListFragment extends LifecycleFragment {
         super.onActivityCreated(savedInstanceState);
 
         //Set up and subscribe (observe) to the ViewModel
-       /*listViewModel = ViewModelProviders.of(this, viewModelFactory)
-                .get(ListViewModel.class);*/
+        listViewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(ListViewModel.class);
 
         listViewModel.getListItems().observe(this, new Observer<List<Person>>() {
             @Override
