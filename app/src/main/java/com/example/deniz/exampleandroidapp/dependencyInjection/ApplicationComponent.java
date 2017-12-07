@@ -3,9 +3,11 @@ package com.example.deniz.exampleandroidapp.dependencyInjection;
 import android.app.Application;
 
 import javax.inject.Singleton;
+
 import dagger.Component;
 
 
+import com.example.deniz.exampleandroidapp.view.create.CreateFragment;
 import com.example.deniz.exampleandroidapp.view.list.ListFragment;
 
 /**
@@ -17,7 +19,8 @@ import com.example.deniz.exampleandroidapp.view.list.ListFragment;
 public interface ApplicationComponent {
 
     void inject(ListFragment listFragment);
-    //void inject(CreateFragment createFragment);
+
+    void inject(CreateFragment createFragment);
     //void inject(DetailFragment detailFragment);
 
     Application application();
