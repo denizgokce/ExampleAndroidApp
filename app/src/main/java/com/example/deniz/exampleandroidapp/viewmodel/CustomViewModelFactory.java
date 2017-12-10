@@ -25,10 +25,10 @@ public class CustomViewModelFactory implements ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(ListViewModel.class))
             return (T) new ListViewModel(repository);
 
-        /*else if (modelClass.isAssignableFrom(ListItemViewModel.class))
-            return (T) new ListItemViewModel(repository);
+        else if (modelClass.isAssignableFrom(NewPersonViewModel.class))
+            return (T) new NewPersonViewModel(repository);
 
-        else if (modelClass.isAssignableFrom(NewListItemViewModel.class))
+        /*else if (modelClass.isAssignableFrom(NewListItemViewModel.class))
             return (T) new NewListItemViewModel(repository);*/
 
         else {

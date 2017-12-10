@@ -24,10 +24,6 @@ public class PeopleRepository {
         this.service = service;
     }
 
-    /*@Override
-    public Call<List<Person>> getPeople() {
-        return service.getPeople();
-    }*/
 
     public LiveData<List<Person>> getPeople() {
         final MutableLiveData<List<Person>> data = new MutableLiveData<>();
@@ -40,6 +36,24 @@ public class PeopleRepository {
 
             @Override
             public void onFailure(Call<List<Person>> call, Throwable t) {
+                // TODO better error handling in part #2 ...
+                data.setValue(null);
+            }
+        });
+        return data;
+    }
+
+    public LiveData<Person> addPerson(Person person) {
+        final MutableLiveData<Person> data = new MutableLiveData<>();
+
+        service.createPerson(person).enqueue(new Callback<Person>() {
+            @Override
+            public void onResponse(Call<Person> call, Response<Person> response) {
+                data.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Person> call, Throwable t) {
                 // TODO better error handling in part #2 ...
                 data.setValue(null);
             }

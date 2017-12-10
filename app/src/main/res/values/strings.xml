@@ -7,7 +7,8 @@
     <string name="transition_drawable">drawable</string>
     <string name="transition_message">message</string>
     <string name="transition_time_and_date">date</string>
-    <string name="title_toolbar">List Activity</string>
+    <string name="title_toolbar_list">List Activity</string>
+    <string name="title_toolbar_create">Create Activity</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

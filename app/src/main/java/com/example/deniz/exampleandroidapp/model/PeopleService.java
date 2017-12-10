@@ -4,7 +4,10 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 
 /**
  * Created by deniz.gokce on 30.11.2017.
@@ -13,4 +16,7 @@ import retrofit2.http.GET;
 public interface PeopleService {
     @GET("people")
     Call<List<Person>> getPeople();
+    @Headers("Content-Type: application/json")
+    @POST("people")
+    Call<Person> createPerson(@Body Person person);
 }

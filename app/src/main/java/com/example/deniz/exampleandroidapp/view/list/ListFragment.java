@@ -6,6 +6,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 import com.example.deniz.exampleandroidapp.ExampleAndroidApp;
 import com.example.deniz.exampleandroidapp.R;
 import com.example.deniz.exampleandroidapp.model.Person;
+import com.example.deniz.exampleandroidapp.view.create.CreateActivity;
 import com.example.deniz.exampleandroidapp.viewmodel.ListViewModel;
 
 import java.util.List;
@@ -91,7 +93,7 @@ public class ListFragment extends LifecycleFragment {
         layoutInflater = getActivity().getLayoutInflater();
         toolbar = (Toolbar) v.findViewById(R.id.tlb_list_activity);
 
-        toolbar.setTitle(R.string.title_toolbar);
+        toolbar.setTitle(R.string.title_toolbar_list);
         //toolbar.setLogo(R.drawable.ic_view_list_white_24dp);
         toolbar.setTitleMarginStart(72);
 
@@ -100,7 +102,7 @@ public class ListFragment extends LifecycleFragment {
         fabulous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startCreateActivity();
+                startCreateActivity();
             }
         });
 
@@ -146,11 +148,11 @@ public class ListFragment extends LifecycleFragment {
         } else {
             startActivity(i);
         }
-    }
+    }*/
 
     public void startCreateActivity() {
         startActivity(new Intent(getActivity(), CreateActivity.class));
-    }*/
+    }
 
 
     public void setListData(List<Person> listOfPeople) {
