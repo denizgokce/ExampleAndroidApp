@@ -13,4 +13,6 @@
     <color name="BLUE">#0000FF</color>
     <color name="GREEN">#00FF00</color>
     <color name="YELLOW">#FFEB3B</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

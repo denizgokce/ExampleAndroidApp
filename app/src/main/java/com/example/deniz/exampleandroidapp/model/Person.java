@@ -1,5 +1,7 @@
 package com.example.deniz.exampleandroidapp.model;
 
+import com.google.gson.JsonObject;
+
 /**
  * Created by Deniz on 30.11.2017.
  */
@@ -36,5 +38,12 @@ public class Person {
 
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    public JsonObject getJson() {
+        JsonObject json = new JsonObject();
+        json.addProperty("firstname", this.firstname);
+        json.addProperty("lastname", this.lastname);
+        return json;
     }
 }

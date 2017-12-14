@@ -20,7 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.create.CreateActivity"></activity>
+        <activity android:name=".view.create.CreateActivity" />
+        <activity
+            android:name=".view.error.ErrorActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_error"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

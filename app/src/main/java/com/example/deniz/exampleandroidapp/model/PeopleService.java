@@ -1,5 +1,7 @@
 package com.example.deniz.exampleandroidapp.model;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -18,5 +20,5 @@ public interface PeopleService {
     Call<List<Person>> getPeople();
     @Headers("Content-Type: application/json")
     @POST("people")
-    Call<Person> createPerson(@Body Person person);
+    Call<List<Person>> createPerson(@Body JsonObject person);
 }

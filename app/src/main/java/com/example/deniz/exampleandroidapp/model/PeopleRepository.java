@@ -43,17 +43,16 @@ public class PeopleRepository {
         return data;
     }
 
-    public LiveData<Person> addPerson(Person person) {
-        final MutableLiveData<Person> data = new MutableLiveData<>();
-
-        service.createPerson(person).enqueue(new Callback<Person>() {
+    public LiveData<List<Person>> addPerson(Person person) {
+        final MutableLiveData<List<Person>> data = new MutableLiveData<>();
+        service.createPerson(person.getJson()).enqueue(new Callback<List<Person>>() {
             @Override
-            public void onResponse(Call<Person> call, Response<Person> response) {
+            public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
                 data.setValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<Person> call, Throwable t) {
+            public void onFailure(Call<List<Person>> call, Throwable t) {
                 // TODO better error handling in part #2 ...
                 data.setValue(null);
             }
