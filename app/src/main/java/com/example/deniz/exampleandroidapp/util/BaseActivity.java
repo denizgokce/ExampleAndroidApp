@@ -12,15 +12,14 @@ import android.view.inputmethod.InputMethodManager;
 public abstract class BaseActivity extends AppCompatActivity {
 
     public static void addFragmentToActivity(FragmentManager fragmentManager,
-                                             Fragment fragment,
-                                             int frameId,
-                                             String tag) {
+                                               Fragment fragment,
+                                               int frameId,
+                                               String tag) {
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(frameId, fragment, tag);
         transaction.commit();
     }
-
     public void hideKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {

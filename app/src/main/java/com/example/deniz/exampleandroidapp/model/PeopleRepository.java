@@ -2,6 +2,7 @@ package com.example.deniz.exampleandroidapp.model;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
 
 import java.util.List;
 
@@ -27,7 +28,6 @@ public class PeopleRepository {
 
     public LiveData<List<Person>> getPeople() {
         final MutableLiveData<List<Person>> data = new MutableLiveData<>();
-
         service.getPeople().enqueue(new Callback<List<Person>>() {
             @Override
             public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {

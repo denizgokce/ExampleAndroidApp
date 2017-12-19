@@ -2,7 +2,12 @@ package com.example.deniz.exampleandroidapp.view.list;
 
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.deniz.exampleandroidapp.R;
 import com.example.deniz.exampleandroidapp.util.BaseActivity;
@@ -13,6 +18,7 @@ public class ListActivity extends BaseActivity {
 
     private static final String LIST_FRAG = "LIST_FRAG";
     private static final String ERROR_FRAG = "ERROR_FRAG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +45,10 @@ public class ListActivity extends BaseActivity {
                     LIST_FRAG
             );
         }
+    }
 
+    public void clearFragment(Bundle savedInstanceState) {
+        ErrorFragment fragment = (ErrorFragment) getSupportFragmentManager().getFragment(savedInstanceState, ERROR_FRAG);
+        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
     }
 }
