@@ -12,11 +12,11 @@ import javax.inject.Inject;
  * Created by Deniz on 10.12.2017.
  */
 
-public class NewPersonViewModel extends ViewModel {
+public class CreateViewModel extends ViewModel {
     private PeopleRepository repository;
 
     @Inject
-    NewPersonViewModel(PeopleRepository repository) {
+    CreateViewModel(PeopleRepository repository) {
         this.repository = repository;
     }
 

@@ -25,11 +25,11 @@ public class CustomViewModelFactory implements ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(ListViewModel.class))
             return (T) new ListViewModel(repository);
 
-        else if (modelClass.isAssignableFrom(NewPersonViewModel.class))
-            return (T) new NewPersonViewModel(repository);
+        else if (modelClass.isAssignableFrom(CreateViewModel.class))
+            return (T) new CreateViewModel(repository);
 
-        /*else if (modelClass.isAssignableFrom(NewListItemViewModel.class))
-            return (T) new NewListItemViewModel(repository);*/
+        else if (modelClass.isAssignableFrom(EditViewModel.class))
+            return (T) new EditViewModel(repository);
 
         else {
             throw new IllegalArgumentException("ViewModel Not Found");

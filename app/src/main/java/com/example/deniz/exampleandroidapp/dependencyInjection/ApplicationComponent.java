@@ -8,6 +8,7 @@ import dagger.Component;
 
 
 import com.example.deniz.exampleandroidapp.view.create.CreateFragment;
+import com.example.deniz.exampleandroidapp.view.edit.EditFragment;
 import com.example.deniz.exampleandroidapp.view.list.ListFragment;
 
 /**
@@ -21,7 +22,8 @@ public interface ApplicationComponent {
     void inject(ListFragment listFragment);
 
     void inject(CreateFragment createFragment);
-    //void inject(DetailFragment detailFragment);
+
+    void inject(EditFragment editFragment);
 
     Application application();
 }

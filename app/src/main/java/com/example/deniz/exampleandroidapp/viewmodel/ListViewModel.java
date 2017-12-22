@@ -21,7 +21,6 @@ public class ListViewModel extends ViewModel {
 
     private PeopleRepository repository;
     public LiveData<List<Person>> people;
-    public final ObservableBoolean isLoading = new ObservableBoolean();
 
     @Inject
     ListViewModel(PeopleRepository repository) {
@@ -32,17 +31,17 @@ public class ListViewModel extends ViewModel {
         return repository.getPeople();
     }
 
-    /*public void deleteListItem(ListItem listItem) {
-        DeleteItemTask deleteItemTask = new DeleteItemTask();
-        deleteItemTask.execute(listItem);
+    public void deletePerson(Person person) {
+        DeletePersonTask deletePersonTask = new DeletePersonTask();
+        deletePersonTask.execute(person);
     }
 
-    private class DeleteItemTask extends AsyncTask<ListItem, Void, Void> {
+    private class DeletePersonTask extends AsyncTask<Person, Void, Void> {
 
         @Override
-        protected Void doInBackground(ListItem... item) {
-            repository.deleteListItem(item[0]);
+        protected Void doInBackground(Person... item) {
+            repository.deletePerson(item[0].getId());
             return null;
         }
-    }*/
+    }
 }

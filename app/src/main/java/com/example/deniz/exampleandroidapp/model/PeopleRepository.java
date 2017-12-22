@@ -59,4 +59,56 @@ public class PeopleRepository {
         });
         return data;
     }
+
+    public LiveData<List<Person>> deletePerson(int id) {
+        final MutableLiveData<List<Person>> data = new MutableLiveData<>();
+        service.deletePerson(id).enqueue(new Callback<List<Person>>() {
+            @Override
+            public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
+                data.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Person>> call, Throwable t) {
+                // TODO better error handling in part #2 ...
+                data.setValue(null);
+            }
+        });
+        return data;
+    }
+
+    public LiveData<Person> getPerson(int id) {
+        final MutableLiveData<Person> data = new MutableLiveData<>();
+        service.getPerson(id).enqueue(new Callback<Person>() {
+            @Override
+            public void onResponse(Call<Person> call, Response<Person> response) {
+                data.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Person> call, Throwable t) {
+                // TODO better error handling in part #2 ...
+                data.setValue(null);
+            }
+        });
+        return data;
+    }
+
+    public LiveData<List<Person>> editPerson(Person person) {
+        final MutableLiveData<List<Person>> data = new MutableLiveData<>();
+        service.editPerson(person.getId(), person.getJson()).enqueue(new Callback<List<Person>>() {
+            @Override
+            public void onResponse(Call<List<Person>> call, Response<List<Person>> response) {
+                data.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Person>> call, Throwable t) {
+                // TODO better error handling in part #2 ...
+                data.setValue(null);
+            }
+        });
+        return data;
+    }
+
 }

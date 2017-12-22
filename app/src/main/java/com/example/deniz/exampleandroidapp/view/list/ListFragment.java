@@ -1,15 +1,15 @@
 package com.example.deniz.exampleandroidapp.view.list;
 
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.arch.lifecycle.LifecycleFragment;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,10 +18,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -31,6 +28,7 @@ import com.example.deniz.exampleandroidapp.ExampleAndroidApp;
 import com.example.deniz.exampleandroidapp.R;
 import com.example.deniz.exampleandroidapp.model.Person;
 import com.example.deniz.exampleandroidapp.view.create.CreateActivity;
+import com.example.deniz.exampleandroidapp.view.edit.EditActivity;
 import com.example.deniz.exampleandroidapp.viewmodel.ListViewModel;
 
 import java.util.List;
@@ -39,7 +37,7 @@ import javax.inject.Inject;
 
 
 public class ListFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
-    private static final String EXTRA_ITEM_ID = "EXTRA_ITEM_ID";
+    private static final String EXTRA_PERSON_ID = "EXTRA_PERSON_ID";
     private static final String LOGTAG = "GESTURE";
     private List<Person> listOfPeople;
 
@@ -47,7 +45,6 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
     private RecyclerView recyclerView;
     private CustomAdapter adapter;
     private Toolbar toolbar;
-
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -87,13 +84,8 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
 
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        swipeRefreshLayout.setRefreshing(true);
-                                    }
-                                }
-        );
+        swipeRefreshLayout.post(() -> swipeRefreshLayout.setRefreshing(true));
+
 
         //toolbar.setTitle(R.string.title_toolbar_list);
         //toolbar.setLogo(R.drawable.ic_view_list_white_24dp);
@@ -102,12 +94,7 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
 
         FloatingActionButton fabulous = (FloatingActionButton) v.findViewById(R.id.fab_create_new_item);
 
-        fabulous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startCreateActivity();
-            }
-        });
+        fabulous.setOnClickListener(v1 -> startCreateActivity());
 
         return v;
     }
@@ -123,16 +110,6 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
             swipeRefreshLayout.setRefreshing(false);
             setListData(people);
         });
-        /*listViewModel.people.observe(this, new Observer<List<Person>>() {
-            @Override
-            public void onChanged(@Nullable List<Person> listPeople) {
-                if (ListFragment.this.listOfPeople == null) {
-                    swipeRefreshLayout.setRefreshing(false);
-                    setListData(listPeople);
-                }
-            }
-        });*/
-
     }
 
     @Override
@@ -150,12 +127,12 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
         super.onDetach();
     }
 
-    /*public void startDetailActivity(String itemId, View viewRoot) {
+    public void startEditActivity(int personId, View viewRoot) {
         Activity container = getActivity();
-        Intent i = new Intent(container, DetailActivity.class);
-        i.putExtra(EXTRA_ITEM_ID, itemId);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        Intent i = new Intent(container, EditActivity.class);
+        i.putExtra(EXTRA_PERSON_ID, String.valueOf(personId));
+        startActivity(i);
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             container.getWindow().setEnterTransition(new Fade(Fade.IN));
             container.getWindow().setEnterTransition(new Fade(Fade.OUT));
 
@@ -168,12 +145,12 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
                             new Pair<>(viewRoot.findViewById(R.id.lbl_date_and_time),
                                     getString(R.string.transition_time_and_date)));
 
-            startActivity(i, options.toBundle());
+            //startActivity(i, options.toBundle());
 
         } else {
             startActivity(i);
-        }
-    }*/
+        }*/
+    }
 
     public void startCreateActivity() {
         startActivity(new Intent(getActivity(), CreateActivity.class));
@@ -185,7 +162,8 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new CustomAdapter();
+        if (adapter == null)
+            adapter = new CustomAdapter();
         recyclerView.setAdapter(adapter);
 
 
@@ -201,20 +179,21 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
                 )
         );
 
-        recyclerView.addItemDecoration(
+        /*recyclerView.addItemDecoration(
                 itemDecoration
-        );
+        );*/
 
 
-        /*ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-        itemTouchHelper.attachToRecyclerView(recyclerView);*/
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
     }
 
     @Override
     public void onRefresh() {
         listViewModel.getPeople().observe(this, people -> {
             swipeRefreshLayout.setRefreshing(false);
-            setListData(listOfPeople);
+            setListData(people);
         });
     }
     /*-------------------- RecyclerView Boilerplate ----------------------*/
@@ -254,7 +233,7 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
             return listOfPeople.size();
         }
 
-        class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
             //10. now that we've made our layouts, let's bind them
             //private CircleImageView coloredCircle;
@@ -262,6 +241,7 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
             private TextView lastname;
             private ViewGroup container;
             private ProgressBar loading;
+
 
             public CustomViewHolder(View itemView) {
                 super(itemView);
@@ -279,30 +259,33 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
 
                 Search "Android WTF: Java Interfaces by Example"
                  */
-                this.container.setOnClickListener(this);
+
+                this.container.setOnLongClickListener(this);
             }
 
             @Override
-            public void onClick(View v) {
-                //getAdapterPosition() get's an Integer based on which the position of the current
-                //ViewHolder (this) in the Adapter. This is how we get the correct Data.
-                Person listItem = listOfPeople.get(
+            public boolean onLongClick(View v) {
+                Person person = listOfPeople.get(
                         this.getAdapterPosition()
                 );
-
-                //startDetailActivity(listItem.getItemId(), v);
-
+                startEditActivity(person.getId(), v);
+                return true;
             }
         }
-
     }
 
 
-    /*private ItemTouchHelper.Callback createHelperCallback() {
+    private ItemTouchHelper.Callback createHelperCallback() {
+
+
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
-            //not used, as the first parameter above is 0
+
+            public boolean isLongPressDragEnabled() {
+                return true;
+            }
+
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
                                   RecyclerView.ViewHolder target) {
@@ -312,18 +295,30 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
             @Override
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 int position = viewHolder.getAdapterPosition();
-                listItemCollectionViewModel.deleteListItem(
-                        listOfData.get(position)
-                );
 
-                //ensure View is consistent with underlying data
-                listOfData.remove(position);
-                adapter.notifyItemRemoved(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                // Add the buttons
+                builder.setPositiveButton(R.string.dialog_button_ok, (dialog, id) -> {
+                    listViewModel.deletePerson(
+                            listOfPeople.get(position)
+                    );
 
-
+                    //ensure View is consistent with underlying data
+                    listOfPeople.remove(position);
+                    adapter.notifyItemRemoved(position);
+                });
+                builder.setNegativeButton(R.string.dialog_button_cancel, (dialog, id) -> {
+                    setListData(listOfPeople);
+                });
+                AlertDialog dialog = builder.create();
+                dialog.setTitle("Alert!");
+                dialog.setMessage("Are you sure?");
+                dialog.show();
             }
         };
         return simpleItemTouchCallback;
-    }*/
+    }
+
+
 }
 
