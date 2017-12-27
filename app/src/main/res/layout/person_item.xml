@@ -8,7 +8,7 @@
     android:background="?android:attr/selectableItemBackground">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imv_list_item_circle"
+        android:id="@+id/imv_list_person_circle"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginBottom="16dp"

@@ -30,10 +30,18 @@ import com.example.deniz.exampleandroidapp.model.Person;
 import com.example.deniz.exampleandroidapp.view.create.CreateActivity;
 import com.example.deniz.exampleandroidapp.view.edit.EditActivity;
 import com.example.deniz.exampleandroidapp.viewmodel.ListViewModel;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.util.List;
 
 import javax.inject.Inject;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ListFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -90,6 +98,22 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
         //toolbar.setTitle(R.string.title_toolbar_list);
         //toolbar.setLogo(R.drawable.ic_view_list_white_24dp);
         //toolbar.setTitleMarginStart(72);
+
+
+        // UNIVERSAL IMAGE LOADER SETUP
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheOnDisc(true).cacheInMemory(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .displayer(new FadeInBitmapDisplayer(300)).build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                getActivity())
+                .defaultDisplayImageOptions(defaultOptions)
+                .memoryCache(new WeakMemoryCache()).build();
+        //.discCacheSize(100 * 1024 * 1024).build();
+
+        ImageLoader.getInstance().init(config);
+        // END - UNIVERSAL IMAGE LOADER SETUP
 
 
         FloatingActionButton fabulous = (FloatingActionButton) v.findViewById(R.id.fab_create_new_item);
@@ -221,7 +245,19 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
             holder.lastname.setText(
                     currentItem.getLastname()
             );
+            //your image url
+            String url = "http://laoblogger.com/images/default-profile-picture-5.jpg";
 
+            ImageLoader imageLoader = ImageLoader.getInstance();
+            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
+                    .cacheOnDisc(true).resetViewBeforeLoading(true).build();
+            //.showImageForEmptyUri(fallback)
+            //.showImageOnFail(fallback)
+            //.showImageOnLoading(fallback).build();
+
+
+            //download and display image from url
+            imageLoader.displayImage(url, holder.coloredCircle, options);
             holder.loading.setVisibility(View.INVISIBLE);
         }
 
@@ -236,7 +272,7 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
         class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
             //10. now that we've made our layouts, let's bind them
-            //private CircleImageView coloredCircle;
+            private CircleImageView coloredCircle;
             private TextView firstname;
             private TextView lastname;
             private ViewGroup container;
@@ -245,7 +281,7 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
 
             public CustomViewHolder(View itemView) {
                 super(itemView);
-                //this.coloredCircle = (CircleImageView) itemView.findViewById(R.id.imv_list_item_circle);
+                this.coloredCircle = (CircleImageView) itemView.findViewById(R.id.imv_list_person_circle);
                 this.firstname = (TextView) itemView.findViewById(R.id.lbl_firstname);
                 this.lastname = (TextView) itemView.findViewById(R.id.lbl_lastname);
                 this.loading = (ProgressBar) itemView.findViewById(R.id.pro_item_data);
