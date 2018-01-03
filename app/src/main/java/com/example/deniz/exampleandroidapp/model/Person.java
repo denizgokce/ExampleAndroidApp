@@ -1,12 +1,18 @@
 package com.example.deniz.exampleandroidapp.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import com.google.gson.JsonObject;
 
 /**
  * Created by Deniz on 30.11.2017.
  */
-
+@Entity
 public class Person {
+    @PrimaryKey
+    @NonNull
     private int id;
     private String firstname;
     private String lastname;

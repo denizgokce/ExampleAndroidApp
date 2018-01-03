@@ -1,5 +1,6 @@
-package com.example.deniz.exampleandroidapp.model;
+package com.example.deniz.exampleandroidapp.model.RestService;
 
+import com.example.deniz.exampleandroidapp.model.Person;
 import com.google.gson.JsonObject;
 
 import java.util.List;

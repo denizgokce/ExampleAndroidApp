@@ -41,8 +41,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 
 public class ListFragment extends LifecycleFragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String EXTRA_PERSON_ID = "EXTRA_PERSON_ID";

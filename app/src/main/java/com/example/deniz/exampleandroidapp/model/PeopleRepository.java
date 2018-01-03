@@ -2,7 +2,9 @@ package com.example.deniz.exampleandroidapp.model;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+
+import com.example.deniz.exampleandroidapp.model.LocalDatabase.PersonDao;
+import com.example.deniz.exampleandroidapp.model.RestService.PeopleService;
 
 import java.util.List;
 
@@ -19,10 +21,12 @@ import retrofit2.Response;
 public class PeopleRepository {
 
     PeopleService service;
+    PersonDao personDao;
 
     @Inject
-    public PeopleRepository(PeopleService service) {
+    public PeopleRepository(PeopleService service, PersonDao personDao) {
         this.service = service;
+        this.personDao = personDao;
     }
 
 

@@ -1,14 +1,15 @@
-package com.example.deniz.exampleandroidapp.dependencyInjection;
+package com.example.deniz.exampleandroidapp.dependencyInjection.Components;
 
 import android.app.Application;
 import android.arch.lifecycle.ViewModelProvider;
 
-import com.example.deniz.exampleandroidapp.model.PeopleService;
+import com.example.deniz.exampleandroidapp.model.RestService.PeopleService;
 import com.example.deniz.exampleandroidapp.model.PeopleRepository;
 import com.example.deniz.exampleandroidapp.viewmodel.CustomViewModelFactory;
 
 import javax.inject.Singleton;
 
+import dagger.Component;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -19,13 +20,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by deniz.gokce on 30.11.2017.
  */
 
-@Module
-public class ServiceModule {
+
+public class ServiceComponent {
+
+    public PeopleService getService() {
+        return service;
+    }
 
     private final PeopleService service;
 
-    public ServiceModule(Application application) {
-
+    public ServiceComponent() {
         String API_BASE_URL = "https://rest-api-example-go.herokuapp.com/";
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -47,22 +51,6 @@ public class ServiceModule {
         this.service = retrofit.create(PeopleService.class);
     }
 
-    @Provides
-    @Singleton
-    PeopleService providePeopleService() {
-        return this.service;
-    }
-
-    @Provides
-    @Singleton
-    PeopleRepository providePeopleRepository(PeopleService peopleService) {
-        return new PeopleRepository(peopleService);
-    }
 
 
-    @Provides
-    @Singleton
-    ViewModelProvider.Factory provideViewModelFactory(PeopleRepository repository) {
-        return new CustomViewModelFactory(repository);
-    }
 }

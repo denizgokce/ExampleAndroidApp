@@ -16,7 +16,7 @@ import com.example.deniz.exampleandroidapp.view.list.ListFragment;
  */
 
 @Singleton
-@Component(modules = {ApplicationModule.class, ServiceModule.class})
+@Component(modules = {ApplicationModule.class, MainModule.class})
 public interface ApplicationComponent {
 
     void inject(ListFragment listFragment);
