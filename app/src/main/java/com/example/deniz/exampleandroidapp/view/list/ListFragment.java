@@ -51,7 +51,7 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
 
     private LayoutInflater layoutInflater;
     private RecyclerView recyclerView;
-    private CustomAdapter adapter;
+    private PersonAdapter adapter;
     private Toolbar toolbar;
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -102,7 +102,8 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
 
         // UNIVERSAL IMAGE LOADER SETUP
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                .cacheOnDisc(true).cacheInMemory(true)
+                .cacheOnDisc(true)
+                .cacheInMemory(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .displayer(new FadeInBitmapDisplayer(300)).build();
 
@@ -132,7 +133,7 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
 
         listViewModel.getPeople().observe(this, people -> {
             swipeRefreshLayout.setRefreshing(false);
-            setListData(people);
+            setListOfPeople(people);
         });
     }
 
@@ -151,45 +152,22 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
         super.onDetach();
     }
 
-    public void startEditActivity(int personId, View viewRoot) {
-        Activity container = getActivity();
-        Intent i = new Intent(container, EditActivity.class);
-        i.putExtra(EXTRA_PERSON_ID, String.valueOf(personId));
-        startActivity(i);
-        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            container.getWindow().setEnterTransition(new Fade(Fade.IN));
-            container.getWindow().setEnterTransition(new Fade(Fade.OUT));
-
-            ActivityOptions options = ActivityOptions
-                    .makeSceneTransitionAnimation(container,
-                            new Pair<>(viewRoot.findViewById(R.id.imv_list_item_circle),
-                                    getString(R.string.transition_drawable)),
-                            new Pair<>(viewRoot.findViewById(R.id.lbl_message),
-                                    getString(R.string.transition_message)),
-                            new Pair<>(viewRoot.findViewById(R.id.lbl_date_and_time),
-                                    getString(R.string.transition_time_and_date)));
-
-            //startActivity(i, options.toBundle());
-
-        } else {
-            startActivity(i);
-        }*/
-    }
 
     public void startCreateActivity() {
         startActivity(new Intent(getActivity(), CreateActivity.class));
     }
 
 
-    public void setListData(List<Person> listOfPeople) {
+    public void setListOfPeople(List<Person> listOfPeople) {
         this.listOfPeople = listOfPeople;
+
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         if (adapter == null)
-            adapter = new CustomAdapter();
+            adapter = new PersonAdapter(this.layoutInflater, getActivity());
         recyclerView.setAdapter(adapter);
-
+        adapter.setListOfPeople(listOfPeople);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(
                 recyclerView.getContext(),
@@ -203,11 +181,6 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
                 )
         );
 
-        /*recyclerView.addItemDecoration(
-                itemDecoration
-        );*/
-
-
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
@@ -217,98 +190,10 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
     public void onRefresh() {
         listViewModel.getPeople().observe(this, people -> {
             swipeRefreshLayout.setRefreshing(false);
-            setListData(people);
+            setListOfPeople(people);
         });
     }
     /*-------------------- RecyclerView Boilerplate ----------------------*/
-
-    private class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
-
-        @Override
-        public CustomAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = layoutInflater.inflate(R.layout.person_item, parent, false);
-            return new CustomViewHolder(v);
-        }
-
-        @Override
-        public void onBindViewHolder(CustomAdapter.CustomViewHolder holder, int position) {
-            //11. and now the ViewHolder data
-            Person currentItem = listOfPeople.get(position);
-
-            //holder.coloredCircle.setImageResource(currentItem.getColorResource());
-
-
-            holder.firstname.setText(
-                    currentItem.getFirstname()
-            );
-
-            holder.lastname.setText(
-                    currentItem.getLastname()
-            );
-            //your image url
-            String url = "http://laoblogger.com/images/default-profile-picture-5.jpg";
-
-            ImageLoader imageLoader = ImageLoader.getInstance();
-            DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
-                    .cacheOnDisc(true).resetViewBeforeLoading(true).build();
-            //.showImageForEmptyUri(fallback)
-            //.showImageOnFail(fallback)
-            //.showImageOnLoading(fallback).build();
-
-
-            //download and display image from url
-            imageLoader.displayImage(url, holder.coloredCircle, options);
-            holder.loading.setVisibility(View.INVISIBLE);
-        }
-
-        @Override
-        public int getItemCount() {
-            // 12. Returning 0 here will tell our Adapter not to make any Items. Let's fix that.
-            if (listOfPeople == null)
-                return 0;
-            return listOfPeople.size();
-        }
-
-        class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
-
-            //10. now that we've made our layouts, let's bind them
-            private CircleImageView coloredCircle;
-            private TextView firstname;
-            private TextView lastname;
-            private ViewGroup container;
-            private ProgressBar loading;
-
-
-            public CustomViewHolder(View itemView) {
-                super(itemView);
-                this.coloredCircle = (CircleImageView) itemView.findViewById(R.id.imv_list_person_circle);
-                this.firstname = (TextView) itemView.findViewById(R.id.lbl_firstname);
-                this.lastname = (TextView) itemView.findViewById(R.id.lbl_lastname);
-                this.loading = (ProgressBar) itemView.findViewById(R.id.pro_item_data);
-
-                this.container = (ViewGroup) itemView.findViewById(R.id.root_list_item);
-                /*
-                We can pass "this" as an Argument, because "this", which refers to the Current
-                Instance of type CustomViewHolder currently conforms to (implements) the
-                View.OnClickListener interface. I have a Video on my channel which goes into
-                Interfaces with Detailed Examples.
-
-                Search "Android WTF: Java Interfaces by Example"
-                 */
-
-                this.container.setOnLongClickListener(this);
-            }
-
-            @Override
-            public boolean onLongClick(View v) {
-                Person person = listOfPeople.get(
-                        this.getAdapterPosition()
-                );
-                startEditActivity(person.getId(), v);
-                return true;
-            }
-        }
-    }
 
 
     private ItemTouchHelper.Callback createHelperCallback() {
@@ -344,7 +229,7 @@ public class ListFragment extends LifecycleFragment implements SwipeRefreshLayou
                     adapter.notifyItemRemoved(position);
                 });
                 builder.setNegativeButton(R.string.dialog_button_cancel, (dialog, id) -> {
-                    setListData(listOfPeople);
+                    setListOfPeople(listOfPeople);
                 });
                 AlertDialog dialog = builder.create();
                 dialog.setTitle("Alert!");
